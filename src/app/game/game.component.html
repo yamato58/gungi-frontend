@@ -1,0 +1,22 @@
+<!-- リセット -->
+<app-reset (reset)="postClickedBoardReset()" (reset)="postClickedCellReset()"></app-reset>
+
+<div class="position">
+    <!-- 相手の持ち駒 -->
+    <app-hand class="left" [whiteHandPieces]="gameStateService.whiteHandPiece()" [currentTurn]="turn"
+        (selected)="postSelectedPieces($event)"></app-hand>
+    <!-- 盤面 -->
+    <app-board [board]="gameStateService.gameState()" [calculatedPieces]="gameStateService.pieceMoveRange()"
+        [turn]="turn" (selected)="postSelectedPieces($event)" (destination)="postSelectedCell($event)"
+        (getPiece)="ClickGetPiece()"></app-board>
+    <!-- 自分の持ち駒 -->
+    <app-hand class="right" [blackHandPieces]="gameStateService.blackHandPiece()" [currentTurn]="turn"
+        (selected)="postSelectedPieces($event)"></app-hand>
+</div>
+
+@if(gameJudge!=0){
+<app-gameJudgeDialog (reset)="postClickedBoardReset()" (reset)="postClickedCellReset()" [isReverse]="!isPlayer"
+    [gameJudge]="gameJudge">
+
+</app-gameJudgeDialog>
+}

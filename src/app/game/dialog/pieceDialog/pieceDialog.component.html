@@ -1,0 +1,13 @@
+<div class="dialog-back">
+    <div class="dialog" [class.reverse-pieceData]="isReverse()">
+        @if(cell()?.pieces?.length == 2){
+        @for(piece of cell()!.pieces; track $index){
+        <p>
+            {{$index + 1}}段目：
+            {{piece.pieceName}}
+            ({{piece.player ? "黒" : "白"}})
+        </p>
+        }
+        }
+    </div>
+</div>

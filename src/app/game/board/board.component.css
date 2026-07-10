@@ -1,0 +1,73 @@
+/* CSS Grid を使った盤面の作成 */
+.board-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 65px);
+    /* マスを9列並べる */
+    grid-template-rows: repeat(9, 65px);
+    /* マスを9行並べる */
+    width: max-content;
+    border: 3px solid black;
+}
+
+/* マスの枠の色や背景色 */
+.cell {
+    border: 1px solid black;
+    background-color: #d9b67a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 0;
+}
+
+.piece {
+    position: relative;
+    z-index: 2;
+}
+
+/* 表示する駒画像 */
+.piece img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: transparent;
+}
+
+/* 選択した駒の移動範囲の表示 */
+.cell.highlight {
+    background-color: #FFFF004D;
+    cursor: pointer;
+}
+
+/* ツケ時の色変換 */
+/* .tsuke {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 97%;
+    height: 97%;
+    background-color: #f01616;
+    z-index: 10;
+    pointer-events: none;
+} */
+
+/* ツケ状態の表示 */
+.tsuke {
+    position: absolute;
+    top: 43%;
+    left: 77%;
+    color: #0a15e1;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* 敵駒のツケ状態 */
+.reverse-tsuke {
+    top: -25%;
+    left: 1%;
+}
+
+.reverse-tsukeNumber {
+    transform: rotate(180deg);
+}

@@ -1,0 +1,44 @@
+/* 盤と持ち駒の位置 */
+.position {
+    display: flex;
+    /* 横中央 */
+    justify-content: center;
+    /* 縦中央 */
+    align-items: center;
+    /* 画面高さ */
+    height: 700px;
+    /* 駒と盤の幅 */
+    gap: 50px;
+    /* 余白 */
+    /* padding: 0 270px; */
+}
+
+/* 自駒の調整 */
+.right {
+    display: flex;
+    /* 自動で次の行に折り返す */
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 200px;
+    height: max-content;
+    border: 3px solid black;
+    background-color: #d9b67a;
+    align-self: flex-end;
+
+}
+
+/* 相手駒の調整 */
+.left {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 200px;
+    height: max-content;
+    border: 3px solid black;
+    background-color: #d9b67a;
+    align-self: flex-start;
+}
+
+.reverse {
+    transform: scale(-1, -1);
+}
