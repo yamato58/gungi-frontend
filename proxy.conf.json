@@ -1,6 +1,6 @@
 {
     "/api": {
-        "target": "https://localhost:7243",
+        "target": "https://gungi-backend.onrender.com/",
         "secure": false,
         "changeOrigin": true,
         "pathRewrite": {
