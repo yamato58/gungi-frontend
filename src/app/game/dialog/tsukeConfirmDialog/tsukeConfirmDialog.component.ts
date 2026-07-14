@@ -24,8 +24,4 @@ export class TsukeConfirmDialogComponent {
   ClickCancelTsuke() {
     this.cancel.emit();
   }
-
-  // HoberPiece() {
-  //   this.showTsuke.emit();
-  // }
 }

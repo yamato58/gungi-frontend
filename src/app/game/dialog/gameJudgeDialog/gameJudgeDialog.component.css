@@ -44,6 +44,7 @@
     cursor: pointer;
 }
 
+/* ボタンクリック時 */
 .button:hover {
     transform: scale(1.05);
 }

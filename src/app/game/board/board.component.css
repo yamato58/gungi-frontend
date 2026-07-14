@@ -1,9 +1,9 @@
 /* CSS Grid を使った盤面の作成 */
 .board-grid {
     display: grid;
-    grid-template-columns: repeat(9, 65px);
+    grid-template-columns: repeat(9, 58px);
     /* マスを9列並べる */
-    grid-template-rows: repeat(9, 65px);
+    grid-template-rows: repeat(9, 58px);
     /* マスを9行並べる */
     width: max-content;
     border: 3px solid black;
@@ -39,24 +39,11 @@
     cursor: pointer;
 }
 
-/* ツケ時の色変換 */
-/* .tsuke {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 97%;
-    height: 97%;
-    background-color: #f01616;
-    z-index: 10;
-    pointer-events: none;
-} */
-
 /* ツケ状態の表示 */
 .tsuke {
     position: absolute;
-    top: 43%;
-    left: 77%;
+    top: 37%;
+    left: 75%;
     color: #0a15e1;
     z-index: 10;
     pointer-events: none;

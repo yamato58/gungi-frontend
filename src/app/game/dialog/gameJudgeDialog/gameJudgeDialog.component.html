@@ -1,10 +1,12 @@
 <div class="dialog-back">
     <div class="dialog" [class.reverse-pieceData]="isReverse()">
 
+        <!-- タイトル -->
         <div class="title">
             ゲーム終了
         </div>
 
+        <!-- 結果 -->
         <div class="result">
             @if(gameJudge()==1){
             Player 1 の勝利！

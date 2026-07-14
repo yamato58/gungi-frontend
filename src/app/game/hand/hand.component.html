@@ -1,13 +1,9 @@
-<!-- <div class="hand-title">持ち駒</div> -->
-
 @for(blackHandPiece of blackHandPieces(); track $index){
-<app-piece [pieceData]="blackHandPiece" [currentTurn]="currentTurn()" (selected)="ClickHandPiece($event)"></app-piece>
+<app-piece [pieceData]="blackHandPiece" [currentTurn]="currentTurn()" (selected)="ClickHandPiece($event)"
+    (showRulePiece)="showRulePiece.emit($event)"></app-piece>
 }
-<!-- <div class="reverse"> -->
+
 @for(whiteHandPiece of whiteHandPieces(); track $index){
-<app-piece [pieceData]="whiteHandPiece" [currentTurn]="currentTurn()" (selected)="ClickHandPiece($event)"></app-piece>
+<app-piece [pieceData]="whiteHandPiece" [currentTurn]="currentTurn()" (selected)="ClickHandPiece($event)"
+    (showRulePiece)="showRulePiece.emit($event)"></app-piece>
 }
-<!-- <div class="hand-title">
-    <div class="reverse">持ち駒</div>
-</div> -->
-<!-- </div> -->

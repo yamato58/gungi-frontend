@@ -1,16 +1,12 @@
 .dialog-back {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     pointer-events: none;
 }
 
 .dialog {
-    background: white;
+    background: rgba(117, 189, 134, 0.468);
     padding: 5px;
     border-radius: 8px;
+    font-weight: bold;
 }
 
 .reverse-pieceData {

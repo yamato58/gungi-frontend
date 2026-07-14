@@ -4,26 +4,36 @@ import { Cell, CellArray } from '../../models/cell.model';
 import { Piece } from '../../models/piece.model';
 import { PieceComponent } from '../piece/piece.component';
 import { TsukeConfirmDialogComponent } from '../dialog/tsukeConfirmDialog/tsukeConfirmDialog.component';
-import { PieceDialogComponent } from '../dialog/pieceDialog/pieceDialog.component';
 import { GetConfirmDialogComponent } from "../dialog/getConfirmDialog/getConfirmDialog.component";
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [CommonModule, PieceComponent, TsukeConfirmDialogComponent, PieceDialogComponent, GetConfirmDialogComponent],
+  imports: [CommonModule, PieceComponent, TsukeConfirmDialogComponent, GetConfirmDialogComponent],
   templateUrl: './board.component.html',
   styleUrl: './board.component.css',
 })
 
 // 盤の作成
 export class BoardComponent {
-  // 盤データ
-  board = input<CellArray>(new CellArray());
 
-  turn = input<boolean>();
+  // 宣言した変数
+  board = input<CellArray>(new CellArray());  // 盤データ
+  turn = input<boolean>();  // 先手か後手か
 
-  // 移動範囲データ
-  calculatedPieces = model<[number, number][]>([]);
+  selected = output<Piece>(); // 選択された駒情報
+  destination = output<Cell>(); // 移動するセル
+  getPiece = output<void>();  // 駒を取得したかどうか
+  showTsukeDialog = output<Cell>(); // ツケ状態を確認するセル
+  closeTsukeDialog = output<void>();  // ツケ状態が表示か非表示か
+  showRulePiece = output<Piece>();  // 駒の移動範囲図を表示するかどうか
+
+  calculatedPieces = model<[number, number][]>([]); // 移動範囲データ
+
+  showConfirmDialog = false;
+  getConfirmDialog = false;
+  canTsuke = true;
+  selectedCell: Cell | null = null;
 
   isMoveableRange(x: number, y: number): boolean {
     // 配列から[x, y]を1行ずつ取り出す
@@ -35,15 +45,6 @@ export class BoardComponent {
     return false; // 光らせない
   }
 
-  // 選択された駒情報
-  selected = output<Piece>();
-  // 移動するセル
-  destination = output<Cell>();
-
-  getPiece = output<void>();
-
-  // selectedPlayer = true;
-
   // 駒クリック
   ClickPiece(piece: Piece) {
     for (const rangeData of this.calculatedPieces()) {
@@ -51,15 +52,8 @@ export class BoardComponent {
         return
       }
     }
-    // this.selectedPlayer = piece.player;
     this.selected.emit(piece);
   }
-
-  showConfirmDialog = false;
-  getConfirmDialog = false;
-  hoverPlayer = true;
-  canTsuke = true;
-  selectedCell: Cell | null = null;
 
   // セルクリック
   ClickCell(cell: Cell) {
@@ -123,19 +117,15 @@ export class BoardComponent {
     this.calculatedPieces.set([]);
   }
 
-  showTsukeDialog = false;
-
   // ツケ状態の表示
-  PieceInfo(cell: Cell, player: boolean) {
+  PieceInfo(cell: Cell) {
     if (cell.pieces.length > 1) {
-      this.selectedCell = cell;
-      this.hoverPlayer = player;
-      this.showTsukeDialog = true;
+      this.showTsukeDialog.emit(cell);
     }
   }
 
   // ツケ状態非表示
   ClosePieceInfo() {
-    this.showTsukeDialog = false;
+    this.closeTsukeDialog.emit();
   }
 }

@@ -5,7 +5,7 @@
 }
 
 .image-box img {
-    width: 65px;
+    width: 57px;
     height: auto;
 }
 
@@ -15,9 +15,6 @@ img {
 }
 
 /* 駒にカーソルを当てた時に色変更 */
-/* .image-box:hover {
-    background-color: #f29d0b;
-} */
 .can-hover:hover {
     background-color: #f29d0b;
 }

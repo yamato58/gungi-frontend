@@ -10,10 +10,15 @@ import { Piece } from '../../models/piece.model';
 })
 
 export class PieceComponent {
-  pieceData = input<Piece>();
-  currentTurn = input<boolean>();
 
-  selected = output<Piece>();
+  // 宣言した変数
+  pieceData = input<Piece>(); // 駒情報
+  currentTurn = input<boolean>(); // 現在のターン
+
+  selected = output<Piece>(); // 選択された駒情報
+  pieceInfo = output<boolean>();  // ツケ状態を表示するかどうか
+  closePieceInfo = output<void>();
+  showRulePiece = output<Piece>();  // 移動範囲図を見る駒の情報
 
   // ボタンクリック
   ClickPiece() {
@@ -23,9 +28,6 @@ export class PieceComponent {
       this.selected.emit(data);
     }
   }
-
-  pieceInfo = output<boolean>();
-  closePieceInfo = output<void>();
 
   PieceInfo() {
     const data = this.pieceData();
@@ -37,5 +39,15 @@ export class PieceComponent {
 
   ClosePieceInfo() {
     this.closePieceInfo.emit();
+  }
+
+  ShowPieceInfo(event: MouseEvent) {
+    event.preventDefault();
+
+    const piece = this.pieceData();
+
+    if (piece) {
+      this.showRulePiece.emit(piece);
+    }
   }
 }

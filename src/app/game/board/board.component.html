@@ -6,9 +6,10 @@
             <div class="piece">
                 @if(cell.pieces.length>0){
                 <app-piece [pieceData]="cell.pieces[cell.pieces.length - 1]" [currentTurn]="turn()"
-                    (pieceInfo)="PieceInfo(cell,$event )" (closePieceInfo)="ClosePieceInfo()"
-                    (selected)="ClickPiece($event)"></app-piece>
+                    (pieceInfo)="PieceInfo(cell)" (closePieceInfo)="ClosePieceInfo()" (selected)="ClickPiece($event)"
+                    (showRulePiece)="showRulePiece.emit($event)"></app-piece>
 
+                <!-- ツケ状態の❶などの表示 -->
                 <div class="tsuke" [class.reverse-tsuke]="!cell.pieces[cell.pieces.length - 1].player">
                     @if(cell.pieces.length>2){
                     <p [class.reverse-tsukeNumber]="!cell.pieces[cell.pieces.length - 1].player">
@@ -28,18 +29,16 @@
         </div>
     </ng-container>
 </div>
-<!-- <app-dialog></app-dialog> -->
+
+<!-- ツケ確認ダイアログ -->
 @if(showConfirmDialog){
 <app-tsukeConfirmDialog [isReverse]="!turn()" (confirm)="DoTsuke()" (cancel)="CancelTsuke()">
 </app-tsukeConfirmDialog>
 }
+
+<!-- 駒取得確認ダイアログ -->
 @if(getConfirmDialog){
 <app-getConfirmDialog [isReverse]="!turn()" [canTsuke]="canTsuke" (getPiece)="GetPiece()" (confirm)="DoTsuke()"
     (cancel)="CancelTsuke()">
 </app-getConfirmDialog>
-}
-
-@if(showTsukeDialog){
-<app-pieceDialog [cell]="selectedCell" [isReverse]="!hoverPlayer">
-</app-pieceDialog>
 }

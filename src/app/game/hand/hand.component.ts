@@ -15,6 +15,7 @@ export class HandComponent {
 
   currentTurn = input<boolean>();
   selected = output<Piece>();
+  showRulePiece = output<Piece>();
 
   // ボタンクリック
   ClickHandPiece(piece: Piece) {
