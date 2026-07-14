@@ -35,8 +35,6 @@ export class GameStateService {
                 currentBoard.invalidPieces.invalidPieces.push(item);
             }
             else if (item.currentX >= 0 && item.currentY >= 0) {
-                // if (currentBoard.cellArray[item.currentY][item.currentX].pieces.length >= 1) {
-                // }
                 // [y][x].piecesにC#側のデータを入れる
                 // [y][x].piecesにC#側のデータを入れる
                 currentBoard.cellArray[item.currentY][item.currentX].pieces.push(item);
@@ -56,11 +54,6 @@ export class GameStateService {
 
         // 盤面更新
         this.gameState.set(currentBoard);
-
-        // if (this.result) {
-        //     alert("負けです！");
-        // }
-        // this.result = false;
     }
 
     // 移動範囲更新

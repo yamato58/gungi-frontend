@@ -5,7 +5,6 @@ import { Piece } from '../models/piece.model';
 import { CalculatedData } from '../models/calculatedData.model';
 import { MovePiece } from '../models/movePiece.model';
 import { MoveResult } from '../models/MoveResult.model';
-// import { GameJudge } from '../models/MoveResult.model';
 
 // サービスをアプリケーション全体で共有し、自動的に依存性注入
 @Injectable({
@@ -18,7 +17,7 @@ export class HttpService {
 
     // C#側にリクエスト
     getInitialPieces(): Observable<MoveResult> {
-        return this.http.get<MoveResult>('https://gungi-backend.onrender.com/game/initial-data');
+        return this.http.get<MoveResult>('/api/game/initial-data');
     }
 
     postSelectedPieces(postdata: Piece): Observable<CalculatedData[]> {
@@ -36,4 +35,25 @@ export class HttpService {
     postClickedCellReset(): Observable<CalculatedData[]> {
         return this.http.post<CalculatedData[]>('/api/game/cellreset-data', null);
     }
+
+    // デプロイ用
+    // getInitialPieces(): Observable<MoveResult> {
+    //     return this.http.get<MoveResult>('https://gungi-backend.onrender.com/game/initial-data');
+    // }
+
+    // postSelectedPieces(postdata: Piece): Observable<CalculatedData[]> {
+    //     return this.http.post<CalculatedData[]>('https://gungi-backend.onrender.com/game/select-data', postdata);
+    // }
+
+    // postSelectedCell(movePiece: MovePiece): Observable<MoveResult> {
+    //     return this.http.post<MoveResult>('https://gungi-backend.onrender.com/game/next-data', movePiece);
+    // }
+
+    // postClickedBoardReset(): Observable<MoveResult> {
+    //     return this.http.post<MoveResult>('https://gungi-backend.onrender.com/game/boardreset-data', null);
+    // }
+
+    // postClickedCellReset(): Observable<CalculatedData[]> {
+    //     return this.http.post<CalculatedData[]>('https://gungi-backend.onrender.com/game/cellreset-data', null);
+    // }
 }
