@@ -2,7 +2,6 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Piece } from '../models/piece.model';
-// import { SelectPiece } from '../models/selectPiece.model';
 import { CalculatedData } from '../models/calculatedData.model';
 import { MovePiece } from '../models/movePiece.model';
 import { MoveResult } from '../models/MoveResult.model';
@@ -19,7 +18,7 @@ export class HttpService {
 
     // C#側にリクエスト
     getInitialPieces(): Observable<MoveResult> {
-        return this.http.get<MoveResult>('/https://gungi-backend.onrender.com/game/initial-data');
+        return this.http.get<MoveResult>('https://gungi-backend.onrender.com/game/initial-data');
     }
 
     postSelectedPieces(postdata: Piece): Observable<CalculatedData[]> {
