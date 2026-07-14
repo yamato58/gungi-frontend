@@ -19,7 +19,7 @@ export class HttpService {
 
     // C#側にリクエスト
     getInitialPieces(): Observable<MoveResult> {
-        return this.http.get<MoveResult>('/api/game/initial-data');
+        return this.http.get<MoveResult>('/https://gungi-backend.onrender.com/game/initial-data');
     }
 
     postSelectedPieces(postdata: Piece): Observable<CalculatedData[]> {
