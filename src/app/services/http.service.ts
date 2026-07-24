@@ -47,7 +47,7 @@ export class HttpService {
 
     // デプロイ用
     getInitialPieces(): Observable<MoveResult> {
-        return this.http.get<moveResult>('https://gungi-backend.onrender.com/game/initial-data');
+        return this.http.get<MoveResult>('https://gungi-backend.onrender.com/game/initial-data');
     }
 
     postSelectedPieces(postdata: Piece): Observable<CalculatedData[]> {
@@ -55,11 +55,11 @@ export class HttpService {
     }
 
     postSelectedCell(movePiece: movePiece): Observable<MoveResult> {
-        return this.http.post<moveResult>('https://gungi-backend.onrender.com/game/next-data', movePiece);
+        return this.http.post<MoveResult>('https://gungi-backend.onrender.com/game/next-data', movePiece);
     }
 
     postClickedBoardReset(): Observable<MoveResult> {
-        return this.http.post<moveResult>('https://gungi-backend.onrender.com/game/boardreset-data', null);
+        return this.http.post<MoveResult>('https://gungi-backend.onrender.com/game/boardreset-data', null);
     }
 
     postClickedCellReset(): Observable<CalculatedData[]> {
