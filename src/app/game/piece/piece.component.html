@@ -1,0 +1,103 @@
+<!-- 各駒の画像 -->
+<div class="image-box" [class.can-hover]="pieceData()?.player === currentTurn()&&!showReplay()"
+    (mouseenter)="PieceInfo()" (mouseleave)="ClosePieceInfo()" (contextmenu)="ShowPieceInfo($event)">
+
+    <!-- 帥の判定 -->
+    @if(pieceData()?.pieceName == "帥"){
+    @if(pieceData()?.player == true){
+    <img src="./image/piece-image/帥(黒).png" (click)="ClickPiece()">
+    }@else{
+    <img src="./image/piece-image/帥(白).png" class="reverse" (click)="ClickPiece()">
+    }
+    }
+
+    <!-- 大の判定 -->
+    @if(pieceData()?.pieceName == "大"){
+    @if(pieceData()?.player == true){
+    <img src="./image/piece-image/大(黒).png" (click)="ClickPiece()">
+    }@else{
+    <img src="./image/piece-image/大(白).png" class="reverse" (click)="ClickPiece()">
+    }
+    }
+
+    <!-- 中の判定 -->
+    @if(pieceData()?.pieceName == "中"){
+    @if(pieceData()?.player == true){
+    <img src="./image/piece-image/中(黒).png" (click)="ClickPiece()">
+    }@else{
+    <img src="./image/piece-image/中(白).png" class="reverse" (click)="ClickPiece()">
+    }
+    }
+
+    <!-- 小の判定 -->
+    @if(pieceData()?.pieceName == "小"){
+    @if(pieceData()?.player == true){
+    <img src="./image/piece-image/小(黒).png" (click)="ClickPiece()">
+    }@else{
+    <img src="./image/piece-image/小(白).png" class="reverse" (click)="ClickPiece()">
+    }
+    }
+
+    <!-- 侍の判定 -->
+    @if(pieceData()?.pieceName == "侍"){
+    @if(pieceData()?.player == true){
+    <img src="./image/piece-image/侍(黒).png" (click)="ClickPiece()">
+    }@else{
+    <img src="./image/piece-image/侍(白).png" class="reverse" (click)="ClickPiece()">
+    }
+    }
+
+    <!-- 槍の判定 -->
+    @if(pieceData()?.pieceName == "槍"){
+    @if(pieceData()?.player == true){
+    <img src="./image/piece-image/槍(黒).png" (click)="ClickPiece()">
+    }@else{
+    <img src="./image/piece-image/槍(白).png" class="reverse" (click)="ClickPiece()">
+    }
+    }
+
+    <!-- 馬の判定 -->
+    @if(pieceData()?.pieceName == "馬"){
+    @if(pieceData()?.player == true){
+    <img src="./image/piece-image/馬(黒).png" (click)="ClickPiece()">
+    }@else{
+    <img src="./image/piece-image/馬(白).png" class="reverse" (click)="ClickPiece()">
+    }
+    }
+
+    <!-- 忍の判定 -->
+    @if(pieceData()?.pieceName == "忍"){
+    @if(pieceData()?.player == true){
+    <img src="./image/piece-image/忍(黒).png" (click)="ClickPiece()">
+    }@else{
+    <img src="./image/piece-image/忍(白).png" class="reverse" (click)="ClickPiece()">
+    }
+    }
+
+    <!-- 砦の判定 -->
+    @if(pieceData()?.pieceName == "砦"){
+    @if(pieceData()?.player == true){
+    <img src="./image/piece-image/砦(黒).png" (click)="ClickPiece()">
+    }@else{
+    <img src="./image/piece-image/砦(白).png" class="reverse" (click)="ClickPiece()">
+    }
+    }
+
+    <!-- 兵の判定 -->
+    @if(pieceData()?.pieceName == "兵"){
+    @if(pieceData()?.player == true){
+    <img src="./image/piece-image/兵(黒).png" (click)="ClickPiece()">
+    }@else{
+    <img src="./image/piece-image/兵(白).png" class="reverse" (click)="ClickPiece()">
+    }
+    }
+
+    <!-- 弓の判定 -->
+    @if(pieceData()?.pieceName == "弓"){
+    @if(pieceData()?.player == true){
+    <img src="./image/piece-image/弓(黒).png" (click)="ClickPiece()">
+    }@else{
+    <img src="./image/piece-image/弓(白).png" class="reverse" (click)="ClickPiece()">
+    }
+    }
+</div>

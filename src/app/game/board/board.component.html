@@ -1,0 +1,44 @@
+<div class="board-grid">
+    <!-- 81個のマスを並べる -->
+    <ng-container *ngFor="let row of board().cellArray">
+        <div class="cell" *ngFor="let cell of row" [class.highlight]="isMoveableRange(cell.x, cell.y)"
+            (click)="ClickCell(cell)">
+            <div class="piece">
+                @if(cell.pieces.length>0){
+                <app-piece [pieceData]="cell.pieces[cell.pieces.length - 1]" [currentTurn]="turn()"
+                    [showReplay]="showReplay()" (pieceInfo)="PieceInfo(cell)" (closePieceInfo)="ClosePieceInfo()"
+                    (selected)="ClickPiece($event)" (showRulePiece)="showRulePiece.emit($event)"></app-piece>
+
+                <!-- ツケ状態の❶などの表示 -->
+                <div class="tsuke" [class.reverse-tsuke]="!cell.pieces[cell.pieces.length - 1].player">
+                    @if(cell.pieces.length>2){
+                    <p [class.reverse-tsukeNumber]="!cell.pieces[cell.pieces.length - 1].player">
+                        ❸
+                    </p>
+                    }
+                    @else if(cell.pieces.length>1){
+                    <p [class.reverse-tsukeNumber]="!cell.pieces[cell.pieces.length - 1].player">
+                        ❷
+                    </p>
+                    }
+                </div>
+                }
+            </div>
+            <!-- {{cell.x}},{{cell.y}} -->
+            <!-- {{cell.pieces.length}} -->
+        </div>
+    </ng-container>
+</div>
+
+<!-- ツケ確認ダイアログ -->
+@if(showConfirmDialog){
+<app-tsukeConfirmDialog [isReverse]="!turn()" (confirm)="DoTsuke()" (cancel)="CancelTsuke()">
+</app-tsukeConfirmDialog>
+}
+
+<!-- 駒取得確認ダイアログ -->
+@if(getConfirmDialog){
+<app-getConfirmDialog [isReverse]="!turn()" [canTsuke]="canTsuke" (getPiece)="GetPiece()" (confirm)="DoTsuke()"
+    (cancel)="CancelTsuke()">
+</app-getConfirmDialog>
+}

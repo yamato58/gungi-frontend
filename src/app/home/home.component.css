@@ -1,0 +1,22 @@
+/* ホームでのボタンについて */
+.button {
+    width: 10%;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    border: 1px solid #68779a;
+    border-radius: 10px;
+    background: #cbe8fa;
+    cursor: pointer;
+}
+
+/* ホバー時 */
+button:hover {
+    transform: scale(1.05);
+}
+
+/* 箇条書き部分について */
+.ul-setting {
+    width: fit-content;
+    margin: auto;
+}

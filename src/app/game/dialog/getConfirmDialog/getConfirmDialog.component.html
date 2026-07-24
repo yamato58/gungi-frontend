@@ -1,0 +1,12 @@
+<div class="dialog-back" [class.reverse-tsukeConfirm]="isReverse()">
+    <div class="dialog">
+        <p>取得しますか？</p>
+        <button (click)="ClickGetPiece()" , class="button">駒取得</button>
+        @if(canTsuke()){
+        <button (click)="ClickDoTsuke()">
+            ツケ
+        </button>
+        }
+        <button (click)="ClickCancelTsuke()" , class="button">キャンセル</button>
+    </div>
+</div>

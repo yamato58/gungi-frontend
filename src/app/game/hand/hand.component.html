@@ -1,0 +1,11 @@
+<!-- 黒の持ち駒 -->
+@for(blackHandPiece of blackHandPieces(); track $index){
+<app-piece [pieceData]="blackHandPiece" [currentTurn]="currentTurn()" (selected)="ClickHandPiece($event)"
+    (showRulePiece)="showRulePiece.emit($event)"></app-piece>
+}
+
+<!-- 白の持ち駒 -->
+@for(whiteHandPiece of whiteHandPieces(); track $index){
+<app-piece [pieceData]="whiteHandPiece" [currentTurn]="currentTurn()" (selected)="ClickHandPiece($event)"
+    (showRulePiece)="showRulePiece.emit($event)"></app-piece>
+}
