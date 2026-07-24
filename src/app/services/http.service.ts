@@ -54,7 +54,7 @@ export class HttpService {
         return this.http.post<CalculatedData[]>('https://gungi-backend.onrender.com/game/select-data', postdata);
     }
 
-    postSelectedCell(movePiece: movePiece): Observable<MoveResult> {
+    postSelectedCell(movePiece: MovePiece): Observable<MoveResult> {
         return this.http.post<MoveResult>('https://gungi-backend.onrender.com/game/next-data', movePiece);
     }
 
