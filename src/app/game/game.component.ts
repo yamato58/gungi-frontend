@@ -148,8 +148,6 @@ export class GameComponent implements OnInit {
 
   // リプレイボタンをクリックしたときに呼ばれる
   public postClickedReplay(replayNum: number): void {
-    console.log("Replay", replayNum);
-
     const nextMoveCount = this.moveCount + replayNum;
 
     if (nextMoveCount < 0 || nextMoveCount > this.maxMoveCount) {
