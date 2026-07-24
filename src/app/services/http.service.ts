@@ -67,6 +67,6 @@ export class HttpService {
     }
 
     postClickedReplay(replayNum: number): Observable<MoveResult> {
-        return this.http.post<MoveResult>('https://gungi-backend.onrender.com/game/cellreset-data', replayNum);
+        return this.http.post<MoveResult>('https://gungi-backend.onrender.com/game/replay-data', replayNum);
     }
 }
