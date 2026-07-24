@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { signal, computed } from '@angular/core';
 import { CellArray } from '../models/cell.model';
 import { CalculatedData } from '../models/calculatedData.model';
-import { MoveResult } from '../models/MoveResult.model';
+import { MoveResult } from '../models/moveResult.model';
 
 // サービスをアプリケーション全体で共有し、自動的に依存性注入
 @Injectable({
@@ -25,7 +25,6 @@ export class GameStateService {
     pieceMoveRange = signal<[number, number][]>([]);
 
     // 盤情報更新
-    // UpdateState(response: Piece[]) {
     UpdateState(response: MoveResult) {
         const currentBoard = new CellArray();
 
@@ -62,15 +61,13 @@ export class GameStateService {
 
         // 移動範囲のデータをrangeに入れる
         for (const range of response) {
-            // console.log("x: ", range.moveableLocation[0]);
-            // console.log("y: ", range.moveableLocation[1]);
-
             moveRange.push(range.moveableLocation)
         }
 
         this.pieceMoveRange.set(moveRange);
     }
 
+    // 移動範囲のリセット
     ResetMoveRange() {
         this.pieceMoveRange.set([]);
     }

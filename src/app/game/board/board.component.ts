@@ -20,6 +20,7 @@ export class BoardComponent {
   // 宣言した変数
   board = input<CellArray>(new CellArray());  // 盤データ
   turn = input<boolean>();  // 先手か後手か
+  showReplay = input<boolean>(false); // リプレイ機能を実行しているかどうか
 
   selected = output<Piece>(); // 選択された駒情報
   destination = output<Cell>(); // 移動するセル

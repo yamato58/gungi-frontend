@@ -45,6 +45,20 @@
     z-index: 200;
 }
 
+/* 手数の位置 */
+.count-position {
+    position: absolute;
+    top: -40px;
+    z-index: 300;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.result {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
 /* リセットボタンの位置 */
 .reset-position {
     position: absolute;
@@ -53,26 +67,41 @@
     z-index: 300;
 }
 
+/* リプレイ(次へ・戻る)の位置 */
+.replay-position {
+    position: absolute;
+    display: flex;
+    z-index: 300;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* 左に移動範囲図 */
 .left-info {
     left: -235px;
     top: 200px;
 }
 
+/* 右に移動範囲図 */
 .right-info {
     right: -230px;
     top: 150px;
 }
 
+/* 左にツケ状態表示 */
 .left-tsuke {
     left: -210px;
     top: 200px;
 }
 
+/* 右にツケ状態表示 */
 .right-tsuke {
     right: -200px;
     top: 150px;
 }
 
+/* ターン表示 */
 .turn-display {
     position: absolute;
     padding: 10px;
@@ -81,12 +110,14 @@
     font-weight: bold;
 }
 
+/* 1Pのターン表示場所 */
 .player1-turn {
     background: #d0e8ff;
     top: 440px;
     left: -230px;
 }
 
+/* 2Pのターン表示場所 */
 .player2-turn {
     background: #ffd0d0;
     top: 35px;
@@ -99,10 +130,12 @@
     height: auto;
 }
 
+/* 反転 */
 .reverse {
     transform: rotate(180deg);
 }
 
+/* 盤の位置 */
 .board-position {
     position: relative;
 }

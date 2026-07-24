@@ -1,6 +1,6 @@
 <!-- 各駒の画像 -->
-<div class="image-box" [class.can-hover]="pieceData()?.player === currentTurn()" (mouseenter)="PieceInfo()"
-    (mouseleave)="ClosePieceInfo()" (contextmenu)="ShowPieceInfo($event)">
+<div class="image-box" [class.can-hover]="pieceData()?.player === currentTurn()&&!showReplay()"
+    (mouseenter)="PieceInfo()" (mouseleave)="ClosePieceInfo()" (contextmenu)="ShowPieceInfo($event)">
 
     <!-- 帥の判定 -->
     @if(pieceData()?.pieceName == "帥"){

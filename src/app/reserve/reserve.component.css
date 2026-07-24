@@ -1,0 +1,10 @@
+/* 全体について */
+.whole {
+    text-align: center;
+}
+
+/* 箇条書き部分について */
+.ul-setting {
+    width: fit-content;
+    margin: auto;
+}

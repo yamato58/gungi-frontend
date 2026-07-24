@@ -6,8 +6,8 @@
             <div class="piece">
                 @if(cell.pieces.length>0){
                 <app-piece [pieceData]="cell.pieces[cell.pieces.length - 1]" [currentTurn]="turn()"
-                    (pieceInfo)="PieceInfo(cell)" (closePieceInfo)="ClosePieceInfo()" (selected)="ClickPiece($event)"
-                    (showRulePiece)="showRulePiece.emit($event)"></app-piece>
+                    [showReplay]="showReplay()" (pieceInfo)="PieceInfo(cell)" (closePieceInfo)="ClosePieceInfo()"
+                    (selected)="ClickPiece($event)" (showRulePiece)="showRulePiece.emit($event)"></app-piece>
 
                 <!-- ツケ状態の❶などの表示 -->
                 <div class="tsuke" [class.reverse-tsuke]="!cell.pieces[cell.pieces.length - 1].player">

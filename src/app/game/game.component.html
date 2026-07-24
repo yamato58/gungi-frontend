@@ -5,6 +5,17 @@
     <!-- 盤面 -->
     <div class="board-position">
 
+        <div class="count-position">
+            {{moveCount}}手目
+        </div>
+
+        <!-- リプレイ -->
+        @if(showReplay){
+        <div class="replay-position">
+            <app-replay (replayNum)="postClickedReplay($event)"></app-replay>
+        </div>
+        }
+
         <!-- リセット -->
         <div class="reset-position">
             <app-reset (reset)="postClickedBoardReset()" (reset)="postClickedCellReset()"></app-reset>
@@ -12,9 +23,10 @@
 
         <!-- 盤面 -->
         <app-board [board]="gameStateService.gameState()" [calculatedPieces]="gameStateService.pieceMoveRange()"
-            [turn]="turn" (selected)="postSelectedPieces($event)" (destination)="postSelectedCell($event)"
-            (getPiece)="ClickGetPiece()" (showRulePiece)="ShowRulePiece($event)"
-            (showTsukeDialog)="ShowTsukeDialog($event)" (closeTsukeDialog)="CloseTsukeDialog()"></app-board>
+            [turn]="turn" [showReplay]="showReplay" (selected)="postSelectedPieces($event)"
+            (destination)="postSelectedCell($event)" (getPiece)="ClickGetPiece()"
+            (showRulePiece)="ShowRulePiece($event)" (showTsukeDialog)="ShowTsukeDialog($event)"
+            (closeTsukeDialog)="CloseTsukeDialog()"></app-board>
 
         <!-- 駒の移動範囲図 -->
         @if(selectedRulePiece){
@@ -45,8 +57,8 @@
 
 <!-- 勝利判定 -->
 @if(gameJudge!=0){
-<app-gameJudgeDialog (reset)="postClickedBoardReset()" (reset)="postClickedCellReset()" [isReverse]="!isPlayer"
-    [gameJudge]="gameJudge">
+<app-gameJudgeDialog (reset)="postClickedBoardReset()" (reset)="postClickedCellReset()" (replay)="ClickReplay()"
+    [isReverse]="!isPlayer" [gameJudge]="gameJudge">
 </app-gameJudgeDialog>
 }
 

@@ -11,12 +11,13 @@ export class GameJudgeDialogComponent {
   isReverse = input(false);
   gameJudge = input<number>();
   reset = output();
+  replay = output();
 
   ClickEnd() {
     this.reset.emit()
   }
 
   ClickReplay() {
-
+    this.replay.emit()
   }
 }
