@@ -61,4 +61,8 @@ export class ReserveComponent {
       }
     });
   }
+
+  public BackHome() {
+    this.router.navigate(['/home']);
+  }
 }

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rule',
@@ -6,4 +7,10 @@ import { Component } from '@angular/core';
   templateUrl: './rule.component.html',
   styleUrl: './rule.component.css',
 })
-export class RuleComponent { }
+export class RuleComponent {
+  private router = inject(Router);
+
+  public BackHome() {
+    this.router.navigate(['/home']);
+  }
+}
