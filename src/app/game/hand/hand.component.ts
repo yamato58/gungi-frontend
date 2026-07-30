@@ -12,14 +12,14 @@ import { PieceComponent } from "../piece/piece.component";
 export class HandComponent {
   blackHandPieces = input<Piece[]>([]);
   whiteHandPieces = input<Piece[]>([]);
-
+  showReplay = input<boolean>(false);
   currentTurn = input<boolean>();
+
   selected = output<Piece>();
   showRulePiece = output<Piece>();
 
   // ボタンクリック
   ClickHandPiece(piece: Piece) {
-    // データがあるか
     this.selected.emit(piece);
   }
 }

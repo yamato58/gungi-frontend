@@ -1,0 +1,13 @@
+.button {
+    min-width: 100px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #68779a;
+    background: #cbe8fa;
+    cursor: pointer;
+}
+
+/* ホバー時 */
+.button:hover {
+    transform: scale(1.05);
+}

@@ -6,5 +6,7 @@ import { Injectable, inject } from '@angular/core';
 })
 
 export class ErrorService {
-
+    public HttpError(err: any): void {
+        console.error("通信エラーが発生しました:", err);
+    }
 }

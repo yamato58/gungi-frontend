@@ -24,6 +24,27 @@ export class GameStateService {
     // 移動座標のsignal
     pieceMoveRange = signal<[number, number][]>([]);
 
+    private password = 0;
+
+    // パスワードを保存
+    public setPassword(password: number): void {
+        this.password = password;
+        localStorage.setItem("password", password.toString());
+    }
+
+    // パスワードを出力
+    public getPassword(): number {
+        if (this.password === 0) {
+            const localPassword = localStorage.getItem("password");
+
+            if (localPassword !== null) {
+                this.password = Number(localPassword);
+            }
+        }
+
+        return this.password;
+    }
+
     // 盤情報更新
     UpdateState(response: MoveResult) {
         const currentBoard = new CellArray();

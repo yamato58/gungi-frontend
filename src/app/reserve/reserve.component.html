@@ -1,7 +1,7 @@
 <div class="whole">
-    <input #todoInput type="text" placeholder="あいことばを入力" />
+    <input #passInput type="text" placeholder="4文字の合言葉を入力(数字)" />
 
-    <button class="button" routerLink="/game">決定</button>
+    <button class="button" (click)="(AddPassword(passInput))">決定</button>
 </div>
 
 <br><br>

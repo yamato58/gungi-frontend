@@ -13,10 +13,12 @@ export class ReplayComponent {
   // 戻る
   ClickReturn() {
     this.replayNum.emit(-1);
+    console.log("戻る")
   }
 
   // 次へ
   ClickNext() {
     this.replayNum.emit(1);
+    console.log("次へ")
   }
 }

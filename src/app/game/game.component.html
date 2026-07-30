@@ -1,7 +1,10 @@
 <div class="position">
+
     <!-- 相手の持ち駒 -->
-    <app-hand class="left" [whiteHandPieces]="gameStateService.whiteHandPiece()" [currentTurn]="turn"
-        (selected)="postSelectedPieces($event)" (showRulePiece)="ShowRulePiece($event)"></app-hand>
+    <app-hand class="left" [whiteHandPieces]="gameStateService.whiteHandPiece()" [showReplay]="isShowReplay"
+        [currentTurn]="isTurn" (selected)="postSelectedPieces($event)"
+        (showRulePiece)="ShowRulePiece($event)"></app-hand>
+
     <!-- 盤面 -->
     <div class="board-position">
 
@@ -9,10 +12,22 @@
             {{moveCount}}手目
         </div>
 
+        <!-- ゲーム終了 -->
+        <div class="end-position">
+            <app-endgame (endGame)="postClickedGameEnd()"></app-endgame>
+        </div>
+
         <!-- リプレイ -->
-        @if(showReplay){
+        @if(isShowReplay){
         <div class="replay-position">
             <app-replay (replayNum)="postClickedReplay($event)"></app-replay>
+        </div>
+        }
+
+        <!-- 投了 -->
+        @if(isGiveButton){
+        <div class="give-position">
+            <app-giveup (giveUp)="postClickedGiveUp()"></app-giveup>
         </div>
         }
 
@@ -23,36 +38,38 @@
 
         <!-- 盤面 -->
         <app-board [board]="gameStateService.gameState()" [calculatedPieces]="gameStateService.pieceMoveRange()"
-            [turn]="turn" [showReplay]="showReplay" (selected)="postSelectedPieces($event)"
+            [turn]="isTurn" [showReplay]="isShowReplay" (selected)="postSelectedPieces($event)"
             (destination)="postSelectedCell($event)" (getPiece)="ClickGetPiece()"
             (showRulePiece)="ShowRulePiece($event)" (showTsukeDialog)="ShowTsukeDialog($event)"
             (closeTsukeDialog)="CloseTsukeDialog()"></app-board>
 
         <!-- 駒の移動範囲図 -->
         @if(selectedRulePiece){
-        <div class="others-position" [class.left-info]="turn" [class.right-info]="!turn">
-            <img [src]="getRuleImagePath(selectedRulePiece)" [class.reverse]="!turn">
+        <div class="others-position" [class.left-info]="isTurn" [class.right-info]="!isTurn">
+            <img [src]="getRuleImagePath(selectedRulePiece)" [class.reverse]="!isTurn">
         </div>
         }
 
         <!-- ツケ駒の確認 -->
-        @if(showTsukeDialog){
-        <div class="others-position" [class.left-tsuke]="turn" [class.right-tsuke]="!turn">
-            <app-pieceDialog [cell]="tsukeDialogCell" [isReverse]="!turn">
+        @if(isShowTsukeDialog){
+        <div class="others-position" [class.left-tsuke]="isTurn" [class.right-tsuke]="!isTurn">
+            <app-pieceDialog [cell]="tsukeDialogCell" [isReverse]="!isTurn">
             </app-pieceDialog>
         </div>
         }
 
         <!-- ターン表示 -->
-        <div class="turn-display" [class.player1-turn]="turn" [class.player2-turn]="!turn" [class.reverse]="!turn">
-            {{ turn ? "Player1のターン" : "Player2のターン" }}
+        <div class="turn-display" [class.player1-turn]="isTurn" [class.player2-turn]="!isTurn"
+            [class.reverse]="!isTurn">
+            {{ isTurn ? "Player1のターン" : "Player2のターン" }}
         </div>
 
     </div>
 
     <!-- 自分の持ち駒 -->
-    <app-hand class="right" [blackHandPieces]="gameStateService.blackHandPiece()" [currentTurn]="turn"
-        (selected)="postSelectedPieces($event)" (showRulePiece)="ShowRulePiece($event)"></app-hand>
+    <app-hand class="right" [blackHandPieces]="gameStateService.blackHandPiece()" [showReplay]="isShowReplay"
+        [currentTurn]="isTurn" (selected)="postSelectedPieces($event)" (showRulePiece)="ShowRulePiece($event)">
+    </app-hand>
 </div>
 
 <!-- 勝利判定 -->
@@ -61,11 +78,3 @@
     [isReverse]="!isPlayer" [gameJudge]="gameJudge">
 </app-gameJudgeDialog>
 }
-
-
-<!-- 駒の移動画像 -->
-<!-- @if(selectedRulePiece){
-<div class="rule-panel" [class.left-panel]="turn" [class.right-panel]="!turn">
-    <img [src]="getRuleImagePath(selectedRulePiece)" [class.reverse-rule]="!turn">
-</div>
-} -->

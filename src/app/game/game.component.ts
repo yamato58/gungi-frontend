@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { BoardComponent } from './board/board.component';
 import { HandComponent } from './hand/hand.component';
 import { HttpService } from '../services/http.service';
@@ -11,20 +12,26 @@ import { ResetComponent } from "./reset/reset.component";
 import { PieceDialogComponent } from './dialog/pieceDialog/pieceDialog.component';
 import { GameJudgeDialogComponent } from "./dialog/gameJudgeDialog/gameJudgeDialog.component";
 import { ReplayComponent } from './replay/replay.component';
+import { GiveupComponent } from "./giveup/giveup.component";
+import { PieceRequest } from '../models/pieceRequest.model';
+import { MovePieceRequest } from '../models/movePieceRequest.model';
+import { ReplayRequest } from '../models/replayRequest.model';
+import { EndgameComponent } from './endgame/endgame.component';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [BoardComponent, HandComponent, ResetComponent, PieceDialogComponent, GameJudgeDialogComponent, ReplayComponent],
+  imports: [BoardComponent, HandComponent, ResetComponent, PieceDialogComponent, GameJudgeDialogComponent, ReplayComponent, GiveupComponent, EndgameComponent],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
 })
 export class GameComponent implements OnInit {
 
   // サービスを読みだす
-  private httpService = inject(HttpService);
   gameStateService = inject(GameStateService);
-  errorService = inject(ErrorService);
+  private httpService = inject(HttpService);
+  private errorService = inject(ErrorService);
+  private router = inject(Router);
 
   private selectedPieceId: number = 0;  // IDを入れとく変数
   private z: number = 0;  // 高さ情報を入れとく
@@ -34,9 +41,10 @@ export class GameComponent implements OnInit {
 
   private isGet: boolean = false; // 駒を取得したかどうか
   isPlayer: boolean = true; // 現在のプレイヤー
-  showTsukeDialog: boolean = false; // ツケ状態を表示するかどうか
-  showReplay: boolean = false;  // リプレイの表示
-  turn: boolean = false;  // 先手か後手か
+  isShowTsukeDialog: boolean = false; // ツケ状態を表示するかどうか
+  isShowReplay: boolean = false;  // リプレイの表示
+  isTurn: boolean = false;  // 先手か後手か
+  isGiveButton: boolean = false;  // 投了を表示するかどうか
 
   tsukeDialogCell: Cell | null = null;  // ツケ状態を見るセル
   selectedRulePiece: Piece | null = null; // 移動範囲図を表示する駒
@@ -44,33 +52,45 @@ export class GameComponent implements OnInit {
 
   // 初めの一回だけ呼ばれる
   ngOnInit(): void {
-    this.httpService.getInitialPieces().subscribe({
+    console.log(this.gameStateService.getPassword());
+    // this.httpService.getInitialPieces().subscribe({
+    this.httpService.postInitialPieces(this.gameStateService.getPassword()).subscribe({
       // 成功
       next: response => {
         this.gameStateService.UpdateState(response);
-        this.turn = response.turn;
+        this.isGiveButton = true;
+        this.isTurn = response.turn;
         this.moveCount = response.moveCount;
 
         console.log("初期駒データ(←C#):", response);
 
-        if (response.gameResult == 1 || response.gameResult == 2 || response.gameResult == 3) {
-          this.turn = response.turn;
+        // リロード時
+        if (response.gameResult !== 0) {
+          this.isTurn = response.turn;
           this.maxMoveCount = response.maxMoveCount;
-          this.showReplay = true;
+          this.isShowReplay = true;
+          this.isGiveButton = false;
         }
       },
-
       // 失敗
       error: err => {
-        console.error("通信エラーが発生しました:", err);
+        this.errorService.HttpError(err);
+        // console.error("通信エラーが発生しました:", err);
       }
     });
   }
 
   // 駒をクリックしたときに呼ばれる
   public postSelectedPieces(piece: Piece): void {
-    if (this.turn === piece.player && !this.showReplay) {
-      this.httpService.postSelectedPieces(this.ClickPiece(piece)).subscribe({
+    const request: PieceRequest = {
+      selectPiece: this.ClickPiece(piece),
+      password: this.gameStateService.getPassword()
+    };
+    console.log('選択された駒データ(Angular→):', request);
+
+    // 現在のターンと駒が同じ、リプレイ中じゃないとき
+    if (this.isTurn === piece.player && !this.isShowReplay) {
+      this.httpService.postSelectedPieces(request).subscribe({
         // 成功
         next: response => {
           this.selectedRulePiece = null;
@@ -80,7 +100,8 @@ export class GameComponent implements OnInit {
         },
         // 失敗
         error: err => {
-          console.error("通信エラーが発生しました:", err);
+          this.errorService.HttpError(err);
+          // console.error("通信エラーが発生しました:", err);
         }
       });
     }
@@ -88,23 +109,29 @@ export class GameComponent implements OnInit {
 
   // セルをクリックしたときに呼ばれる
   public postSelectedCell(cell: Cell): void {
-    if (!this.showReplay) {
-      this.httpService.postSelectedCell(this.ClickCell(cell)).subscribe({
+    const request: MovePieceRequest = {
+      movePiece: this.ClickCell(cell),
+      password: this.gameStateService.getPassword()
+    };
+    console.log('移動場所(Angular→):', request);
+
+    if (!this.isShowReplay) {
+      this.httpService.postSelectedCell(request).subscribe({
         // 成功
         next: response => {
           this.gameStateService.UpdateState(response);
-          // this.UpdateState(response);
           console.log("変更後駒データ(←C#):", response);
 
           this.isGet = false;
           this.gameJudge = response.gameResult;
-          this.turn = response.turn;
+          this.isTurn = response.turn;
           this.moveCount = response.moveCount;
           this.maxMoveCount = response.maxMoveCount;
         },
         // 失敗
         error: err => {
-          console.error("通信エラーが発生しました:", err);
+          this.errorService.HttpError(err);
+          // console.error("通信エラーが発生しました:", err);
         }
       });
     }
@@ -112,27 +139,33 @@ export class GameComponent implements OnInit {
 
   // リセットボタンをクリックしたときに呼ばれる
   public postClickedBoardReset(): void {
-    this.httpService.postClickedBoardReset().subscribe({
+    const password = this.gameStateService.getPassword();
+
+    this.httpService.postClickedBoardReset(password).subscribe({
       // 成功
       next: response => {
         this.gameStateService.UpdateState(response);
         console.log("リセットデータ(←C#):", response);
 
-        this.turn = response.turn;
+        this.isTurn = response.turn;
         this.gameJudge = 0;
         this.selectedRulePiece = null;
-        this.showReplay = false;
+        this.isShowReplay = false;
+        this.isGiveButton = true;
       },
       // 失敗
       error: err => {
-        console.error("通信エラーが発生しました:", err);
+        this.errorService.HttpError(err);
+        // console.error("通信エラーが発生しました:", err);
       }
     });
   }
 
   // リセットボタンをクリックしたときに呼ばれる
   public postClickedCellReset(): void {
-    this.httpService.postClickedCellReset().subscribe({
+    const password = this.gameStateService.getPassword();
+
+    this.httpService.postClickedCellReset(password).subscribe({
       // 成功
       next: response => {
         this.gameStateService.ResetMoveRange();
@@ -141,7 +174,8 @@ export class GameComponent implements OnInit {
       },
       // 失敗
       error: err => {
-        console.error("通信エラーが発生しました:", err);
+        this.errorService.HttpError(err);
+        // console.error("通信エラーが発生しました:", err);
       }
     });
   }
@@ -149,23 +183,72 @@ export class GameComponent implements OnInit {
   // リプレイボタンをクリックしたときに呼ばれる
   public postClickedReplay(replayNum: number): void {
     const nextMoveCount = this.moveCount + replayNum;
+    const request: ReplayRequest = {
+      replayNum: replayNum,
+      password: this.gameStateService.getPassword()
+    };
 
     if (nextMoveCount < 0 || nextMoveCount > this.maxMoveCount) {
       return;
     }
-    this.httpService.postClickedReplay(replayNum).subscribe({
+    this.httpService.postClickedReplay(request).subscribe({
       // 成功
       next: response => {
         this.gameStateService.UpdateState(response);
         console.log("リプレイ駒データ(←C#):", response);
 
-        this.turn = response.turn;
+        this.isTurn = response.turn;
         this.moveCount = response.moveCount;
         this.gameJudge = response.gameResult;
       },
       // 失敗
       error: err => {
-        console.error("通信エラーが発生しました:", err);
+        this.errorService.HttpError(err);
+        // console.error("通信エラーが発生しました:", err);
+      }
+    });
+  }
+
+  // 投了ボタンをクリックしたときに呼ばれる
+  public postClickedGiveUp(): void {
+    const password = this.gameStateService.getPassword();
+
+    this.httpService.postClickedGiveUp(password).subscribe({
+      // 成功
+      next: response => {
+        this.gameStateService.UpdateState(response);
+        console.log("ギブアップデータ(←C#):", response);
+
+        this.gameJudge = response.gameResult;
+        this.moveCount = response.moveCount;
+        this.maxMoveCount = response.maxMoveCount;
+      },
+      // 失敗
+      error: err => {
+        this.errorService.HttpError(err);
+        // console.error("通信エラーが発生しました:", err);
+      }
+    });
+  }
+
+  // ゲーム終了ボタンをクリックしたときに呼ばれる
+  public postClickedGameEnd(): void {
+    const password = this.gameStateService.getPassword();
+
+    this.httpService.postClickedGameEnd(password).subscribe({
+      // 成功
+      next: response => {
+        if (response) {
+          console.log("削除したパスワード:", password);
+          localStorage.removeItem("password");
+          this.gameStateService.setPassword(0);
+          this.router.navigate(["/home"]);
+        }
+      },
+      // 失敗
+      error: err => {
+        this.errorService.HttpError(err);
+        // console.error("通信エラーが発生しました:", err);
       }
     });
   }
@@ -176,7 +259,6 @@ export class GameComponent implements OnInit {
     this.isPlayer = piece.player;
     this.z = piece.currentZ;
 
-    console.log('選択された駒データ(Angular→):', piece);
     return piece;
   }
 
@@ -188,10 +270,9 @@ export class GameComponent implements OnInit {
       nextY: cell.y,
       nextZ: this.z,
       isPlayer: this.isPlayer,
-      isGet: this.isGet
+      isGet: this.isGet,
     };
     this.gameStateService.ResetMoveRange();
-    console.log('移動場所(Angular→):', movePiece);
 
     return movePiece;
   }
@@ -205,13 +286,13 @@ export class GameComponent implements OnInit {
   // ツケ状態の表示
   ShowTsukeDialog(cell: Cell) {
     this.tsukeDialogCell = cell;
-    this.showTsukeDialog = true;
+    this.isShowTsukeDialog = true;
     this.selectedRulePiece = null;
   }
 
   // ツケ状態の非表示
   CloseTsukeDialog() {
-    this.showTsukeDialog = false;
+    this.isShowTsukeDialog = false;
   }
 
   // 各駒の移動範囲画像の表示
@@ -231,7 +312,8 @@ export class GameComponent implements OnInit {
 
   // リプレイ機能実行
   public ClickReplay(): void {
-    this.showReplay = true;
+    this.isGiveButton = false;
+    this.isShowReplay = true;
     this.gameJudge = 0;
 
     console.log("リプレイ実行")

@@ -63,8 +63,18 @@
 .reset-position {
     position: absolute;
     top: -30px;
-    right: -120px;
+    right: -110px;
     z-index: 300;
+}
+
+/* 投了の位置 */
+.give-position {
+    position: absolute;
+    display: flex;
+    z-index: 15;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 /* リプレイ(次へ・戻る)の位置 */
@@ -138,4 +148,12 @@
 /* 盤の位置 */
 .board-position {
     position: relative;
+}
+
+/* ゲーム終了の位置 */
+.end-position {
+    position: absolute;
+    top: -31px;
+    right: -230px;
+    z-index: 300;
 }
