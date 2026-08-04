@@ -64,7 +64,7 @@ export class HttpService {
 
     // デプロイ用
     postInputPassword(password: number): Observable<boolean> {
-        return this.http.post<boolean>('https://gungi-backend.onrender.com/game/password-data', password);
+        return this.http.post<boolean>('https://gungi-backend.onrender.com/game/password-data', reserve);
     }
 
     postInitialPieces(password: number): Observable<MoveResult> {
