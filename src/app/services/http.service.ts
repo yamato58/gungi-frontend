@@ -79,6 +79,10 @@ export class HttpService {
         return this.http.post<MoveResult>('https://gungi-backend.onrender.com/game/next-data', movePiece);
     }
 
+    postMoveCPU(password: number): Observable<MoveResult> {
+        return this.http.post<MoveResult>('https://gungi-backend.onrender.com/game/cpu-data', password);
+    }
+    
     postClickedBoardReset(password: number): Observable<MoveResult> {
         return this.http.post<MoveResult>('https://gungi-backend.onrender.com/game/boardreset-data', password);
     }
