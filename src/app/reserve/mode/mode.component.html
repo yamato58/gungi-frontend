@@ -1,0 +1,9 @@
+<div class="mode">
+    <button class="button" [class.selected]="selectedMode === 'normal'" (click)="SelectedMode('normal')">
+        一般戦
+    </button>
+
+    <button class="button" [class.selected]="selectedMode === 'cpu'" (click)="SelectedMode('cpu')">
+        CPU戦
+    </button>
+</div>

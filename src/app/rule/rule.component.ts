@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class RuleComponent {
   private router = inject(Router);
 
+  // ホームに戻る
   public BackHome() {
     this.router.navigate(['/home']);
   }

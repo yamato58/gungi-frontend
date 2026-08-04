@@ -1,0 +1,21 @@
+.mode {
+    justify-content: center;
+    display: flex;
+    gap: 20px;
+}
+
+.button {
+    background-color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ボタン選択時 */
+.button.selected {
+    background-color: aqua;
+}
+
+/* ホバー時 */
+.button:hover {
+    transform: scale(1.05);
+}

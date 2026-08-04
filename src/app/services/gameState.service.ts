@@ -25,6 +25,7 @@ export class GameStateService {
     pieceMoveRange = signal<[number, number][]>([]);
 
     private password = 0;
+    private mode: 'normal' | 'cpu' | null = null;
 
     // パスワードを保存
     public setPassword(password: number): void {
@@ -43,6 +44,14 @@ export class GameStateService {
         }
 
         return this.password;
+    }
+
+    public setMode(mode: 'normal' | 'cpu') {
+        this.mode = mode;
+    }
+
+    public getMode() {
+        return this.mode;
     }
 
     // 盤情報更新

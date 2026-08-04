@@ -52,8 +52,6 @@ export class GameComponent implements OnInit {
 
   // 初めの一回だけ呼ばれる
   ngOnInit(): void {
-    console.log(this.gameStateService.getPassword());
-    // this.httpService.getInitialPieces().subscribe({
     this.httpService.postInitialPieces(this.gameStateService.getPassword()).subscribe({
       // 成功
       next: response => {
@@ -63,6 +61,7 @@ export class GameComponent implements OnInit {
         this.moveCount = response.moveCount;
 
         console.log("初期駒データ(←C#):", response);
+        this.postMoveCPU();
 
         // リロード時
         if (response.gameResult !== 0) {
@@ -75,7 +74,6 @@ export class GameComponent implements OnInit {
       // 失敗
       error: err => {
         this.errorService.HttpError(err);
-        // console.error("通信エラーが発生しました:", err);
       }
     });
   }
@@ -101,7 +99,6 @@ export class GameComponent implements OnInit {
         // 失敗
         error: err => {
           this.errorService.HttpError(err);
-          // console.error("通信エラーが発生しました:", err);
         }
       });
     }
@@ -127,11 +124,39 @@ export class GameComponent implements OnInit {
           this.isTurn = response.turn;
           this.moveCount = response.moveCount;
           this.maxMoveCount = response.maxMoveCount;
+
+          this.postMoveCPU();
         },
         // 失敗
         error: err => {
           this.errorService.HttpError(err);
-          // console.error("通信エラーが発生しました:", err);
+        }
+      });
+    }
+  }
+
+  // CPUの行動
+  public postMoveCPU(): void {
+    const password: number = this.gameStateService.getPassword();
+
+    if (this.gameStateService.getMode() === 'cpu' && !this.isTurn && !this.isShowReplay) {
+      console.log('CPU行動');
+
+      this.httpService.postMoveCPU(password).subscribe({
+        // 成功
+        next: response => {
+          this.gameStateService.UpdateState(response);
+          console.log("CPU変更後駒データ(←C#):", response);
+
+          this.isGet = false;
+          this.gameJudge = response.gameResult;
+          this.isTurn = response.turn;
+          this.moveCount = response.moveCount;
+          this.maxMoveCount = response.maxMoveCount;
+        },
+        // 失敗
+        error: err => {
+          this.errorService.HttpError(err);
         }
       });
     }
@@ -152,32 +177,19 @@ export class GameComponent implements OnInit {
         this.selectedRulePiece = null;
         this.isShowReplay = false;
         this.isGiveButton = true;
+        this.postMoveCPU();
       },
       // 失敗
       error: err => {
         this.errorService.HttpError(err);
-        // console.error("通信エラーが発生しました:", err);
       }
     });
   }
 
   // リセットボタンをクリックしたときに呼ばれる
   public postClickedCellReset(): void {
-    const password = this.gameStateService.getPassword();
-
-    this.httpService.postClickedCellReset(password).subscribe({
-      // 成功
-      next: response => {
-        this.gameStateService.ResetMoveRange();
-        this.moveCount = 0;
-        console.log("リセットデータ(←C#):", response);
-      },
-      // 失敗
-      error: err => {
-        this.errorService.HttpError(err);
-        // console.error("通信エラーが発生しました:", err);
-      }
-    });
+    this.gameStateService.ResetMoveRange();
+    this.moveCount = 0;
   }
 
   // リプレイボタンをクリックしたときに呼ばれる
@@ -204,7 +216,6 @@ export class GameComponent implements OnInit {
       // 失敗
       error: err => {
         this.errorService.HttpError(err);
-        // console.error("通信エラーが発生しました:", err);
       }
     });
   }
@@ -226,7 +237,6 @@ export class GameComponent implements OnInit {
       // 失敗
       error: err => {
         this.errorService.HttpError(err);
-        // console.error("通信エラーが発生しました:", err);
       }
     });
   }
@@ -248,7 +258,6 @@ export class GameComponent implements OnInit {
       // 失敗
       error: err => {
         this.errorService.HttpError(err);
-        // console.error("通信エラーが発生しました:", err);
       }
     });
   }

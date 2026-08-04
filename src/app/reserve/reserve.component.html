@@ -2,10 +2,14 @@
     ゲーム終わるときはゲーム終了ボタンを押してください！！
 </div>
 
+<br>
+<app-mode (gameMode)="GetMode($event)"></app-mode>
+<br>
+
 <div class="whole">
     <input #passInput type="text" placeholder="4文字の合言葉を入力(数字)" (keyup.enter)="AddPassword(passInput)" />
 
-    <button class="button" (click)="AddPassword(passInput)">決定</button>
+    <button (click)="AddPassword(passInput)">決定</button>
 </div>
 
 <br><br>
@@ -21,5 +25,5 @@
 <br>
 
 <div class="whole">
-    <button class="button" (click)="BackHome()">戻る</button>
+    <button (click)="BackHome()">戻る</button>
 </div>
