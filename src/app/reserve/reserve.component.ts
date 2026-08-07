@@ -19,6 +19,7 @@ export class ReserveComponent {
   private router = inject(Router);
 
   gameMode: 'normal' | 'cpu' | null = null;
+  isDisplay: boolean = true;
 
   // モードの受け取り
   public GetMode(mode: 'normal' | 'cpu') {
@@ -78,6 +79,7 @@ export class ReserveComponent {
           alert("既に使用されている合言葉です")
           return;
         }
+        isDisplay = false;
       },
       // 失敗
       error: err => {
