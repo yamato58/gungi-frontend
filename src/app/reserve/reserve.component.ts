@@ -79,7 +79,7 @@ export class ReserveComponent {
           alert("既に使用されている合言葉です")
           return;
         }
-        isDisplay = false;
+        this.isDisplay = false;
       },
       // 失敗
       error: err => {
