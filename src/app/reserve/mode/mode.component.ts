@@ -11,6 +11,7 @@ export class ModeComponent {
 
   gameMode = output<'normal' | 'cpu'>();
 
+  // モード選択
   public SelectedMode(mode: 'normal' | 'cpu') {
     this.selectedMode = mode;
 

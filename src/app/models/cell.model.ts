@@ -7,15 +7,11 @@ export class Cell {
     x: number;
     y: number;
     pieces: Piece[];
-    // pieceName: string;
-    // hasPiece: boolean;
 
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
         this.pieces = [];
-        // this.pieceName = "";
-        // this.hasPiece = false;
     }
 }
 

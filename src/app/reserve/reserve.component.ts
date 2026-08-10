@@ -1,9 +1,11 @@
 import { Component, inject, input } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
 import { GameStateService } from '../services/gameState.service';
 import { ModeComponent } from './mode/mode.component';
 import { ReserveRequest } from '../models/reserveRequest.model';
+import { ErrorService } from '../services/error.service';
 
 @Component({
   selector: 'app-reserve',
@@ -15,11 +17,12 @@ import { ReserveRequest } from '../models/reserveRequest.model';
 
 export class ReserveComponent {
   private httpService = inject(HttpService);
+  private errorService = inject(ErrorService);
   private gameStateService = inject(GameStateService);
   private router = inject(Router);
 
   gameMode: 'normal' | 'cpu' | null = null;
-  isDisplay: boolean = true;
+  isLoading: boolean = false;
 
   // モードの受け取り
   public GetMode(mode: 'normal' | 'cpu') {
@@ -66,26 +69,31 @@ export class ReserveComponent {
   }
 
   // 合言葉入力したときに呼ばれる
-  public postInputPassword(reserve: ReserveRequest): void {
-    this.httpService.postInputPassword(reserve).subscribe({
-      // 成功
-      next: response => {
-        console.log("合言葉チェック(←C#):", response);
-        if (response) {
-          this.gameStateService.setMode(reserve.mode);
-          this.gameStateService.setPassword(reserve.password);
-          this.router.navigate(['/game']);
-        } else {
-          alert("既に使用されている合言葉です")
-          return;
-        }
-        this.isDisplay = false;
-      },
-      // 失敗
-      error: err => {
-        console.error("通信エラーが発生しました:", err);
+  public async postInputPassword(reserve: ReserveRequest): Promise<void> {
+    try {
+      this.isLoading = true;
+
+      const response = await firstValueFrom(
+        this.httpService.postInputPassword(reserve)
+      );
+
+      console.log("合言葉チェック(←C#):", response);
+
+      if (!response) {
+        alert("既に使用されている合言葉です");
+        return;
       }
-    });
+
+      this.gameStateService.setMode(reserve.mode);
+      this.gameStateService.setPassword(reserve.password);
+
+      this.router.navigate(['/game']);
+
+    } catch (err) {
+      this.errorService.HttpError(err);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   // ホームに戻る

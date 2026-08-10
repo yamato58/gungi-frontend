@@ -1,12 +1,4 @@
-.hand-title {
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    /* 太字 */
-    font-size: 28px;
-    margin-bottom: 6px;
-}
-
+/* 反転 */
 .reverse {
     transform: scale(-1, -1);
 }

@@ -4,11 +4,13 @@
     z-index: 2;
 }
 
+/* 駒のサイズ */
 .image-box img {
     width: 57px;
     height: auto;
 }
 
+/* 駒の位置 */
 img {
     display: block;
     margin: auto;

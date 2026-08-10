@@ -1,8 +1,6 @@
-@if(isDisplay){
 <div style="text-align: center; font-weight: bold;">
     ゲーム終わるときはゲーム終了ボタンを押してください！！
 </div>
-}
 
 <br>
 <app-mode (gameMode)="GetMode($event)"></app-mode>
@@ -13,12 +11,15 @@
 
     <button (click)="AddPassword(passInput)">決定</button>
 </div>
+
 <br>
-@if(!isDisplay){
-<div class="whole" style="text-align: center; font-weight: bold;">
+@if(isLoading){
+<div class="loading">
+    <div class="spinner"></div>
     Now Loading...
 </div>
 }
+
 <br>
 <div style="text-align: center; font-weight: bold;">
     ※便利な機能

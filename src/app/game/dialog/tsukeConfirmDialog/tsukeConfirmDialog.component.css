@@ -1,3 +1,4 @@
+/* 背景 */
 .dialog-back {
     position: fixed;
     inset: 0;
@@ -6,12 +7,14 @@
     align-items: center;
 }
 
+/* ダイアログ */
 .dialog {
     background: white;
     padding: 20px;
     border-radius: 8px;
 }
 
+/* 反転 */
 .reverse-tsukeConfirm {
     transform: rotate(180deg);
 }

@@ -13,10 +13,12 @@ export class GameJudgeDialogComponent {
   reset = output();
   replay = output();
 
+  // 終了
   ClickEnd() {
     this.reset.emit()
   }
 
+  // リプレイ
   ClickReplay() {
     this.replay.emit()
   }

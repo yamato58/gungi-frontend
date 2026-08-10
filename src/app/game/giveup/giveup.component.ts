@@ -10,6 +10,7 @@ import { Component } from '@angular/core';
 export class GiveupComponent {
   giveUp = output();
 
+  // 投了
   ClickGiveUp() {
     this.giveUp.emit();
     console.log("投了")

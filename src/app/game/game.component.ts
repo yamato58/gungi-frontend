@@ -55,15 +55,21 @@ export class GameComponent implements OnInit {
     this.httpService.postInitialPieces(this.gameStateService.getPassword()).subscribe({
       // 成功
       next: response => {
+        this.gameStateService.getMode();
         this.gameStateService.UpdateState(response);
+        this.gameStateService.ResetMoveRange();
         this.isGiveButton = true;
         this.isTurn = response.turn;
         this.moveCount = response.moveCount;
 
         console.log("初期駒データ(←C#):", response);
-        this.postMoveCPU();
 
-        // リロード時
+        // CPU決着前リロード時
+        if (response.gameResult === 0) {
+          this.postMoveCPU();
+        }
+
+        // 決着後リロード時
         if (response.gameResult !== 0) {
           this.isTurn = response.turn;
           this.maxMoveCount = response.maxMoveCount;
@@ -125,7 +131,9 @@ export class GameComponent implements OnInit {
           this.moveCount = response.moveCount;
           this.maxMoveCount = response.maxMoveCount;
 
-          this.postMoveCPU();
+          if (this.gameJudge == 0) {
+            this.postMoveCPU();
+          }
         },
         // 失敗
         error: err => {
@@ -251,6 +259,7 @@ export class GameComponent implements OnInit {
         if (response) {
           console.log("削除したパスワード:", password);
           localStorage.removeItem("password");
+          localStorage.removeItem("mode");
           this.gameStateService.setPassword(0);
           this.router.navigate(["/home"]);
         }

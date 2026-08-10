@@ -42,15 +42,24 @@ export class GameStateService {
                 this.password = Number(localPassword);
             }
         }
-
         return this.password;
     }
 
+    // ゲームモードを保存
     public setMode(mode: 'normal' | 'cpu') {
         this.mode = mode;
+        localStorage.setItem("mode", mode);
     }
 
+    // ゲームモードを出力
     public getMode() {
+        if (this.mode === null) {
+            const localMode = localStorage.getItem("mode");
+
+            if (localMode === 'normal' || localMode === 'cpu') {
+                this.mode = localMode;
+            }
+        }
         return this.mode;
     }
 
