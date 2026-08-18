@@ -1,4 +1,5 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
@@ -20,6 +21,7 @@ export class ReserveComponent {
   private errorService = inject(ErrorService);
   private gameStateService = inject(GameStateService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   gameMode: 'normal' | 'cpu' | null = null;
   isLoading: boolean = false;
@@ -64,7 +66,6 @@ export class ReserveComponent {
       password: passwordNum
     };
     console.log("合言葉(Angular→):", reserve);
-
     this.postInputPassword(reserve)
   }
 
@@ -78,7 +79,6 @@ export class ReserveComponent {
       );
 
       console.log("合言葉チェック(←C#):", response);
-
       if (!response) {
         alert("既に使用されている合言葉です");
         return;
@@ -93,6 +93,8 @@ export class ReserveComponent {
       this.errorService.HttpError(err);
     } finally {
       this.isLoading = false;
+      // 手動で更新
+      this.cdr.detectChanges();
     }
   }
 

@@ -12,6 +12,18 @@
             {{moveCount}}手目
         </div>
 
+        <div class="useful-position">
+            <details>
+                <summary>便利機能</summary>
+                <ul>
+                    <li>駒を右クリックで移動範囲図の表示</li>
+                    <li>もう一度右クリックで非表示</li>
+                    <li>ほかのマスをクリックで駒選択の解除</li>
+                    <li>ツケ状態の駒ホバーで状態表示</li>
+                </ul>
+            </details>
+        </div>
+
         <!-- ゲーム終了 -->
         <div class="end-position">
             <app-endgame (endGame)="postClickedGameEnd()"></app-endgame>

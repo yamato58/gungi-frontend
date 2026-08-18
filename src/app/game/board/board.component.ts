@@ -62,10 +62,12 @@ export class BoardComponent {
 
       // 取得確認ダイアログ
       if (cell.pieces.length > 0) {
+        // 敵の駒のとき、駒取得表示
         if (this.turn() !== cell.pieces[cell.pieces.length - 1].player) {
           this.getConfirmDialog = true;
           this.selectedCell = cell;
 
+          // 高さが最大または帥のとき、ツケ非表示
           if (cell.pieces[cell.pieces.length - 1].currentZ == 2 || cell.pieces[cell.pieces.length - 1].pieceName == "帥") {
             this.canTsuke = false;
             return;
