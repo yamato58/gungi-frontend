@@ -1,5 +1,7 @@
 <div class="position">
-
+　　<div>
+  　　{{ debugMessage }}
+　　</div>
     <!-- 相手の持ち駒 -->
     <app-hand class="left" [whiteHandPieces]="gameStateService.whiteHandPiece()" [showReplay]="isShowReplay"
         [currentTurn]="isTurn" (selected)="postSelectedPieces($event)"
