@@ -49,18 +49,13 @@ export class GameComponent implements OnInit {
   tsukeDialogCell: Cell | null = null;  // ツケ状態を見るセル
   selectedRulePiece: Piece | null = null; // 移動範囲図を表示する駒
 
-　debugMessage = "";
   // 初めの一回だけ呼ばれる
   ngOnInit(): void {
-    this.debugMessage = "ngOnInit開始";
     this.httpService.postInitialPieces(this.gameStateService.getPassword()).subscribe({
       // 成功
       next: response => {
-        this.debugMessage = "API通信成功";
         this.gameStateService.getMode();
-        this.debugMessage = "getMode完了";
         this.gameStateService.UpdateState(response);
-        this.debugMessage = "UpdateState完了";
         this.gameStateService.ResetMoveRange();
         this.isGiveButton = true;
         this.isTurn = response.turn;
@@ -83,7 +78,6 @@ export class GameComponent implements OnInit {
       },
       // 失敗
       error: err => {
-        this.debugMessage = "通信エラー";
         this.errorService.HttpError(err);
       }
     });
