@@ -25,6 +25,7 @@ export class ReserveComponent {
 
   gameMode: 'normal' | 'cpu' | null = null;
   isLoading: boolean = false;
+  debug = "";
 
   // モードの受け取り
   public GetMode(mode: 'normal' | 'cpu') {
@@ -66,6 +67,7 @@ export class ReserveComponent {
       password: passwordNum
     };
     console.log("合言葉(Angular→):", reserve);
+    this.debug("パスワード入力");
     this.postInputPassword(reserve)
   }
 
@@ -73,8 +75,9 @@ export class ReserveComponent {
   public async postInputPassword(reserve: ReserveRequest): Promise<void> {
     try {
       this.isLoading = true;
-
+      this.debug("firstValueFrom");
       const response = await firstValueFrom(
+        this.debug("response");
         this.httpService.postInputPassword(reserve)
       );
 
@@ -83,13 +86,15 @@ export class ReserveComponent {
         alert("既に使用されている合言葉です");
         return;
       }
-
+      this.debug("setMode");
       this.gameStateService.setMode(reserve.mode);
+      this.debug("setPassword");
       this.gameStateService.setPassword(reserve.password);
-
+      this.debug("画面遷移");
       this.router.navigate(['/game']);
 
     } catch (err) {
+      this.debug("エラー");
       this.errorService.HttpError(err);
     } finally {
       this.isLoading = false;
