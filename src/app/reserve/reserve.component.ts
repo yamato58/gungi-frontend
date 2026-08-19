@@ -76,10 +76,11 @@ export class ReserveComponent {
     try {
       this.isLoading = true;
       this.debug = "firstValueFrom";
+      this.debug = "通信開始";
       const response = await firstValueFrom(
-        this.debug = "response";
         this.httpService.postInputPassword(reserve)
       );
+      this.debug = "通信完了";
 
       console.log("合言葉チェック(←C#):", response);
       if (!response) {
